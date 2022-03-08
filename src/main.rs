@@ -4,6 +4,7 @@ use std::{fs, net::SocketAddr, sync::Arc};
 mod db;
 mod options;
 mod routes;
+mod cache;
 
 use db::DatabaseImpl;
 

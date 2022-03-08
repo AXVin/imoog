@@ -14,8 +14,10 @@ pub async fn index() -> &'static str {
     "Welcome to imoog"
 }
 
+type DBDriver = DatabaseDriver<MongoOptions, Collection<MongoImoogDocument>>;
+
 pub async fn deliver_file(
-    database: Arc<DatabaseDriver<MongoOptions, Collection<MongoImoogDocument>>>,
+    database: Arc<DBDriver>,
     Path(identifier): Path<String>,
 ) -> Response<Body> {
     let result = database.fetch(identifier).await;

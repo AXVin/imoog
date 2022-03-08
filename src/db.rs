@@ -81,7 +81,6 @@ impl DatabaseImpl<MongoOptions> for DatabaseDriver<MongoOptions, Collection<Mong
     }
 }
 
-#[cfg(features = "postgres")]
 #[async_trait]
 impl DatabaseImpl<PostgresOptions> for DatabaseDriver<PostgresOptions, sqlx::Pool<sqlx::Postgres>> {
     async fn connect(options: PostgresOptions) -> Self {
@@ -114,7 +113,7 @@ impl DatabaseImpl<PostgresOptions> for DatabaseDriver<PostgresOptions, sqlx::Poo
         db
     }
 
-    async fn fetch(&self, identifier: String) -> (String, Vec<u8>, String) {
+    async fn fetch(&self, identifier: String) -> Option<(String, Vec<u8>, String)> {
         /*
         Schema:
         image_identifier TEXT PRIMARY KEY,
@@ -128,7 +127,7 @@ impl DatabaseImpl<PostgresOptions> for DatabaseDriver<PostgresOptions, sqlx::Poo
                 .await
                 .unwrap();
 
-        row
+        Some(row)
     }
 
     async fn insert(&self, identifier: String, mime_type: String, image: Vec<u8>) {
